@@ -1,12 +1,10 @@
 <?php
-session_start();
-include "../core/produitc.php";
-include "../entities/produit.php";
-include "../core/categoriesc.php";
-include "../entities/categories.php";
-include "../entities/submenu.php";
-include "../core/submenuc.php";
-include "../core/ajoutCart.php" ;
+include "C:/wamp64/www/test/core/produitc.php";
+include "C:/wamp64/www/test/entities/produit.php";
+include "C:/wamp64/www/test/core/categoriesc.php";
+include "C:/wamp64/www/test/entities/categories.php";
+include "C:/wamp64/www/projet/entities/submenu.php";
+include "C:/wamp64/www/projet/core/submenuc.php";
 $cat1c=new CategoryC();
 $categorie=$cat1c->affichercategory();
 $menu1c=new SubmenuC(); 
@@ -24,7 +22,6 @@ $depart = ($pageCourante-1)*$produitparpage;
 ?>
 <html lang="zxx">
 <head>
-
 	<title>Baz'art | eCommerce Template</title>
 	<meta charset="UTF-8">
 	<meta name="description" content=" Baz'art | eCommerce Template">
@@ -60,28 +57,28 @@ $depart = ($pageCourante-1)*$produitparpage;
 		<div class="loader"></div>
 	</div>
 
-	<header class="header-section">
-	<?php if( ISSET($_SESSION['email'])) { ?>
-			<div class="header-top">
+	<!-- Header section -->
+		<header class="header-section">
+		<div class="header-top">
 			<div class="container">
 				<div class="row">
 					<div class="col-lg-2 text-center text-lg-left">
 						<!-- logo -->
-						<a href="./index.html" class="site0-logo">
+						<a href="./index.html" class="site-logo">
 							<img src="img/logo.jpg" alt="" style="width: 100px ">
 						</a>
 					</div>
-					<div class="col-xl-5 col-lg-5">
-						<form class="header-search-form" style="top: 30px">
-							<input type="text" placeholder="Search on Baz'art ....">
-							<button><i class="flaticon-search"></i></button>
+					<div class="col-xl-6 col-lg-5">
+						<form class="header-search-form" style="top: 30px" method="POST" action="search.php">
+							<input type="text" placeholder="Search on Baz'art ...." name="recherche" id="Search">
+							<button type="submit" name="search"><i class="flaticon-search"></i></button>
 						</form>
 					</div>
 					<div class="col-xl-4 col-lg-5"  style="top: 35px">
 						<div class="user-panel">
 							<div class="up-item">
 								<i class="flaticon-profile"></i>
-								<a href="profil.php">Profile</a> -- <a href="logout.php"> Logout</a>
+								<a href="#">Sign</a> In or <a href="#">Create Account</a>
 							</div>
 							<div class="up-item">
 								<div class="shopping-card">
@@ -95,56 +92,11 @@ $depart = ($pageCourante-1)*$produitparpage;
 				</div>
 			</div>
 		</div>
-			
-		<?php }?>
-			<?php if(!ISSET($_SESSION['email'])){?>
-        <div class="header-top">
-			<div class="container">
-				<div class="row">
-					<div class="col-lg-2 text-center text-lg-left">
-						<!-- logo -->
-						<a href="./index.html" class="site0-logo">
-							<img src="img/logo.jpg" alt="" style="width: 100px ">
-						</a>
-					</div>
-					<div class="col-xl-5 col-lg-5">
-						<form class="header-search-form" style="top: 30px">
-							<input type="text" placeholder="Search on Baz'art ....">
-							<button><i class="flaticon-search"></i></button>
-						</form>
-					</div>
-					<div class="col-xl-4 col-lg-5"  style="top: 35px">
-						<div class="user-panel">
-							<div class="up-item">
-								<i class="flaticon-profile"></i>
-								<a href="login.html">Sign in</a> or <a href="../inscri/inscription.html">Create account</a>
-							</div>
-						<div class="up-item">
-								<div class="shopping-card">
-									<i class="flaticon-bag"></i>
-									<span><?=$cart->count();?></span>
-								</div>
-								<a href="../views/cart.php">Shopping Cart</a>
-							</div>
-							<div class="up-item">
-                            <div class="shopping-card">
-                                <i class="flaticon-heart"></i>
-                                <span id="wishlist-product-count"></span>
-                            </div>
-                            <a href="#">Wishlist</a>
-						</div> 
-				</div>
-			</div>
-		</div>
-
-
-			
-		<?php }?>
 		<nav class="main-navbar">
 			<div class="container">
 				<!-- menu -->
 						<ul class="main-menu">
-					<li><a href="index.php">Home</a></li>
+					<li><a href="#">Home</a></li>
 
 					<li><a href="affpag.php">Catalogue</a></li>
 				 <?php  
@@ -181,13 +133,15 @@ $depart = ($pageCourante-1)*$produitparpage;
 			</div>
 		</nav>
 	</header>
+	<!-- Header section end -->
+
 
 	<!-- Page info -->
 	<div class="page-top-info">
 		<div class="container">
 			<h4>CAtegory PAge</h4>
 			<div class="site-pagination">
-				<a href="index.php">Home</a> /
+				<a href="">Home</a> /
 				<a href="">Shop</a> /
 			</div>
 		</div>
@@ -357,7 +311,7 @@ $max = 300;
 		<div class="product-area" style="width: 10000px" >
 		<div class="container" style="width: 10000px;top: 100px">
 			<div class="col-3" >
-				<a href="#" >
+				<a href="product.php?action=details&amp;num=<?php echo $row['numero']; ?>">
   
 					<img src="<?PHP echo $img ?>">
 					<div class="caption">
@@ -371,7 +325,7 @@ $max = 300;
 						            <div class="product-item" style="position: relative;top: 390px;right: 890px">
 									<div class="pi-pic">
 									<div class="pi-links">
-										<a href="../core/ajoutCart.php?product_id=<?php echo $row['numero']; ?>" class="add-card"><i class="flaticon-bag"></i><span>ADD TO CART</span></a>
+										<a href="#" class="add-card"><i class="flaticon-bag"></i><span>ADD TO CART</span></a>
 										<a href="#" class="wishlist-btn"><i class="flaticon-heart"></i></a>
 									</div>
 								    </div>
@@ -388,7 +342,7 @@ $max = 300;
 <div class="product-area" style="  width: 10000px">
 		<div class="container" style="position:relative;left:400px;top: -640px ;width: 10000px">
 			<div class="col-3" >
-				<a href="#" >
+				<a href="product.php?action=details&amp;num=<?php echo $row['numero']; ?>">
 
 					<img src="<?PHP echo $img ?>">
 					<div class="caption">
@@ -402,7 +356,7 @@ $max = 300;
 						            <div class="product-item" style="position: relative;top: 390px;right: 890px">
 									<div class="pi-pic">
 									<div class="pi-links">
-										<a href="../core/ajoutCart.php?product_id=<?php echo $row['numero']; ?>" class="add-card"><i class="flaticon-bag"></i><span>ADD TO CART</span></a>
+										<a href="#" class="add-card"><i class="flaticon-bag"></i><span>ADD TO CART</span></a>
 										<a href="#" class="wishlist-btn"><i class="flaticon-heart"></i></a>
 									</div>
 								    </div>
@@ -426,7 +380,7 @@ $max = 300;
 		<div class="product-area" style="width: 10000px">
 		<div class="container" style="position:relative;top:<?PHP echo $top; ?>;width: 10000px">
 			<div class="col-3" >
-				<a href="#" >
+				<a href="product.php?action=details&amp;num=<?php echo $row['numero']; ?>">
 
 					<img src="<?PHP echo $img ?>">
 					<div class="caption">
@@ -440,7 +394,7 @@ $max = 300;
 						            <div class="product-item" style="position: relative;top: 390px;right: 890px">
 									<div class="pi-pic">
 									<div class="pi-links">
-										<a href="../core/ajoutCart.php?product_id=<?php echo $row['numero']; ?>" class="add-card"><i class="flaticon-bag"></i><span>ADD TO CART</span></a>
+										<a href="#" class="add-card"><i class="flaticon-bag"></i><span>ADD TO CART</span></a>
 										<a href="#" class="wishlist-btn"><i class="flaticon-heart"></i></a>
 									</div>
 								    </div>
@@ -460,7 +414,7 @@ $top="-".($p)*'641'."px";
 <div class="product-area" style="position:relative;top:<?PHP echo $top; ?>;left:400px;width: 10000px">
 		<div class="container" style="position:relative;width: 10000px">
 			<div class="col-3" >
-				<a href="#" >
+				<a href="product.php?action=details&amp;num=<?php echo $row['numero']; ?>">
                     
 					<img src="<?PHP echo $img ?>">
 					<div class="caption">
@@ -476,7 +430,7 @@ $top="-".($p)*'641'."px";
 						            <div class="product-item" style="position: relative;top: 390px;right: 890px">
 									<div class="pi-pic">
 									<div class="pi-links">
-										<a href="../core/ajoutCart.php?product_id=<?php echo $row['numero']; ?>" class="add-card"><i class="flaticon-bag"></i><span>ADD TO CART</span></a>
+										<a href="#" class="add-card"><i class="flaticon-bag"></i><span>ADD TO CART</span></a>
 										<a href="#" class="wishlist-btn"><i class="flaticon-heart"></i></a>
 									</div>
 								    </div>
@@ -567,8 +521,8 @@ $data=$produit1c->remplirchamps($numero);
                         <div class="pro-qty"><input type="text" value="1"></div>
                     </div>
 					<a href="product.php?action=details&amp;num=<?php echo $numero; ?>" class="site-btn"> VIEW FULL DETAILS</a>
-			<a href="#" class="addtocart"><i class="fas fa-heart"></i> Add to Wish List</a>
-			<a  href="../core/ajoutCart.php?product_id=<?= $numero; ?>" class="buynow" ><i class="fas fa-shopping-cart" ></i> ADD TO BAG</a>
+			<a href="#" class="addtocart"><i class="fas fa-heart"></i> Add to Cart</a>
+			<a href="#" class="buynow" ><i class="fas fa-shopping-cart" ></i> ADD TO BAG</a>
 		</div>
 	</div>
 	<!-- Product View Box / Quick Product View End -->
@@ -590,7 +544,7 @@ $data=$produit1c->remplirchamps($numero);
 					<div class="footer-widget about-widget">
 						<h2>Questions</h2>
 						<ul>
-							<li><a href="">About Us</a></li>
+							<li><a href="aboutus.html">About Us</a></li>
 							<li><a href="">Track Orders</a></li>
 							<li><a href="">Returns</a></li>
 							<li><a href="">Jobs</a></li>
@@ -744,6 +698,7 @@ $data=$produit1c->remplirchamps($numero);
      " - $" + $( "#slider-range" ).slider( "values", 1 ) );
   });
   </script>
+	<!--====== Javascripts & Jquery ======-->
 	<script src="js/jquery-3.2.1.min.js"></script>
 	<script src="js/bootstrap.min.js"></script>
 	<script src="js/jquery.slicknav.min.js"></script>
